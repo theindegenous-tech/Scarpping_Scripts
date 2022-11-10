@@ -27,7 +27,7 @@ SECRET_KEY = 'TJZGQgbfYS7aES8D9H/h5+/hDutOyn8BGwfhRmSdc1c'
 
 def connectSQL():
 		try:
-			connection = psycopg2.connect(user="postgres",
+			connection = psycopg2.connect(user="admin",
 										password="admin",
 										host="127.0.0.1",
 										port="5432",
