@@ -43,7 +43,7 @@ def connectSQL():
 		except (Exception, psycopg2.Error) as error:
 			print("Failed to insert record into mobile table", error)
 		
-connectSQL()
+# connectSQL()
 # URL from which pdfs to be downloaded
 url = "https://archive.org/details/cdl"
 
