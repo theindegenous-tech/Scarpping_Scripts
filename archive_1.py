@@ -42,7 +42,7 @@ def connectSQL(ID,title,url):
 url = "https://archive.org/details/cdl"
 
 # Requests URL and get response object
-response = requests.get(url,timeout=15) 
+response = requests.get(url,timeout=600) 
 
 # Parse text obtained
 soup = BeautifulSoup(response.text, 'html.parser')
@@ -57,7 +57,7 @@ i = 0
 for link in links:
 	
 	# print(link)
-	# try:
+	try:
 		ans = link.find('a')['href']
 		print("ans",ans)
 		filename = ans.split('/')[-1]
@@ -76,6 +76,7 @@ for link in links:
 	# except:
 	# 	break
 		for hit in links_2:
+    			
 				i=i+1
 				hit_detail = hit.text.strip()	
 				if(hit_detail == "EPUB              download"):
@@ -84,7 +85,7 @@ for link in links:
 							
 							comp_url =( "https://archive.org"+hit['href'])
 							print("comp_url",comp_url)
-							response = requests.get(comp_url,timeout=15) 
+							response = requests.get(comp_url,timeout=600) 
 							path = "books/"+filename+".epub"
 							name_book = filename+".epub"
 							
@@ -114,28 +115,10 @@ for link in links:
 
 							print("File ",filename , " uploaded")
 							
-
-							# title_list = article_list = author_list = list()
-
-							# for title in soup.find_all('h1',class_='post-title'):
-							# 	title_list.append(title)
-
-							# for article in soup.find_all(class_='post-content'):
-							# 	article_list.append(article)
-
-							# for author in soup.find_all(class_='author-name'):
-							# 	author_list.append(author)
-
-							# for index in range(0, len(title_list)):
-							# 	title = title_list[index]
-							# 	article = article_list[index]
-							# 	author = author_list[index]
-
-							# 	postgres_insert_query = """ INSERT INTO library (title_list, article_list, author_list) VALUES (%s,%s,%s)"""
-							# 	record_to_insert = (title,article,author)
-							# 	Cursor.execute(postgres_insert_query, record_to_insert)
 						except:
 							pass
+	except:
+		pass
 
 
 
