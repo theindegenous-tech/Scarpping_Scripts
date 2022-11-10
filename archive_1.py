@@ -11,18 +11,18 @@ from botocore.client import Config
 ACCESS_ID = 'DO00DZN9YDVM4H4QKLPE'
 SECRET_KEY = 'TJZGQgbfYS7aES8D9H/h5+/hDutOyn8BGwfhRmSdc1c'
 
-# Initiate session
-session = session.Session()
-client = session.client('s3',
-                        region_name='nyc3',
-                        endpoint_url='https://nyc3.digitaloceanspaces.com',
-                        aws_access_key_id=ACCESS_ID,
-                        aws_secret_access_key=SECRET_KEY)
+# # Initiate session
+# session = session.Session()
+# client = session.client('s3',
+#                         region_name='nyc3',
+#                         endpoint_url='https://nyc3.digitaloceanspaces.com',
+#                         aws_access_key_id=ACCESS_ID,
+#                         aws_secret_access_key=SECRET_KEY)
 						
-client.upload_file('books/pdf5.pdf',  # Path to local file
+# client.upload_file('books/pdf5.pdf',  # Path to local file
 
-                   'booksdatabaseepub',  # Name of Space
-                   'pdf5.pdf')  # Name for remote file
+#                    'booksdatabaseepub',  # Name of Space
+#                    'pdf5.pdf')  # Name for remote file
 
 
 def connectSQL():
@@ -87,8 +87,9 @@ for link in links:
 						comp_url =( "https://archive.org"+hit['href'])
 						print("comp_url",comp_url)
 						response = requests.get(comp_url)
-						name = "pdf"+str(i)+".pdf"
-						pdf = open("pdf"+str(i)+".pdf", 'wb')
+						path = "books/pdf"+str(i)+".pdf"
+						name_book = "pdf"+str(i)+".pdf"
+						pdf = open("books/pdf"+str(i)+".pdf", 'wb')
 						# print("response.content",response.content)
 						pdf.write(response.content)
 
@@ -104,7 +105,10 @@ for link in links:
 												aws_secret_access_key=SECRET_KEY)
 												
 						# client.upload_file(name)
-						print("File ",name , " uploaded")
+						client.upload_file(path,  # Path to local file
+						'booksdatabaseepub',  # Name of Space
+						name_book)  # Name for remote file
+						print("File ",name_book , " uploaded")
 						
 
 						# title_list = article_list = author_list = list()
