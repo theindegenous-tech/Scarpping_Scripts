@@ -19,7 +19,8 @@ client = session.client('s3',
                         aws_access_key_id=ACCESS_ID,
                         aws_secret_access_key=SECRET_KEY)
 						
-client.upload_file('/root/Scarpping_Scripts/',  # Path to local file
+client.upload_file('books/pdf5.pdf',  # Path to local file
+
                    'booksdatabaseepub',  # Name of Space
                    'pdf5.pdf')  # Name for remote file
 
