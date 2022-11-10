@@ -64,7 +64,7 @@ for link in links:
 
 		comp_url =( "https://archive.org/"+ans)
 		# data_type =link.get('data-category')
-		response_2 = requests.get(comp_url,timeout=15) 
+		response_2 = requests.get(comp_url,timeout=60) 
 
 			# Parse text obtained
 		soup = BeautifulSoup(response_2.text, 'html.parser')
