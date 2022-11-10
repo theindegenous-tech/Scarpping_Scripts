@@ -57,23 +57,24 @@ i = 0
 for link in links:
 	
 	# print(link)
+	try:
 		ans = link.find('a')['href']
 		print("ans",ans)
 		filename = ans.split('/')[-1]
 		print("filename",filename)
 
 		comp_url =( "https://archive.org/"+ans)
-		# data_type =link.get('data-category')
-		response_2 = requests.get(comp_url,timeout=60) 
 
+		# data_type =link.get('data-category')
+		response_2 = requests.get(comp_url,timeout=600) 
 			# Parse text obtained
 		soup = BeautifulSoup(response_2.text, 'html.parser')
-
 		# Find all hyperlinks present on webpage
 		links_2 = soup.find_all(class_ = "format-summary download-pill")
 		title = soup.find(class_ = "breaker-breaker").text
 		print("title",title)
-
+	except:
+		break
 		for hit in links_2:
 				i=i+1
 				hit_detail = hit.text.strip()	
@@ -135,6 +136,7 @@ for link in links:
 							# 	Cursor.execute(postgres_insert_query, record_to_insert)
 						except:
 							pass
+
 
 
 	# print("All PDF files downloaded")
