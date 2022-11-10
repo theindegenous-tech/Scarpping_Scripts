@@ -3,6 +3,9 @@ from sqlite3 import Cursor
 import psycopg2
 import requests
 from bs4 import BeautifulSoup
+import uuid
+import random
+
 
 
 from boto3 import session
@@ -11,21 +14,8 @@ from botocore.client import Config
 ACCESS_ID = 'DO00DZN9YDVM4H4QKLPE'
 SECRET_KEY = 'TJZGQgbfYS7aES8D9H/h5+/hDutOyn8BGwfhRmSdc1c'
 
-# # Initiate session
-# session = session.Session()
-# client = session.client('s3',
-#                         region_name='nyc3',
-#                         endpoint_url='https://nyc3.digitaloceanspaces.com',
-#                         aws_access_key_id=ACCESS_ID,
-#                         aws_secret_access_key=SECRET_KEY)
-						
-# client.upload_file('books/pdf5.pdf',  # Path to local file
 
-#                    'booksdatabaseepub',  # Name of Space
-#                    'pdf5.pdf')  # Name for remote file
-
-
-def connectSQL():
+def connectSQL(ID,title,url):
 		try:
 			connection = psycopg2.connect(user="admin",
 										password="admin",
@@ -33,7 +23,7 @@ def connectSQL():
 										port="5432",
 										database="library")
 			cursor = connection.cursor()
-			postgres_insert_query = "INSERT INTO the_indegenous_backend_book (id,title,description,year,url) VALUES  (4,'Test','desc',2022,'url')"
+			postgres_insert_query = f"INSERT INTO the_indegenous_backend_book (id,title,description,year,url) VALUES  ({ID},{title},'desc',2022,{url})"
 			cursor.execute(postgres_insert_query)
 
 			connection.commit()
@@ -61,10 +51,12 @@ i = 0
 # From all links check for pdf link and
 # if present download file
 for link in links:
-	try:
+	
 	# print(link)
 		ans = link.find('a')['href']
 		print("ans",ans)
+		filename = ans.split('/')[-1]
+		print("filename",filename)
 
 		comp_url =( "https://archive.org/"+ans)
 		# data_type =link.get('data-category')
@@ -75,20 +67,26 @@ for link in links:
 
 		# Find all hyperlinks present on webpage
 		links_2 = soup.find_all(class_ = "format-summary download-pill")
+		title = soup.find(class_ = "breaker-breaker").text
+		print("title",title)
 
 		for hit in links_2:
 				i=i+1
 				hit_detail = hit.text.strip()	
-				if(hit_detail == "PDF              download"):
+				if(hit_detail == "EPUB              download"):
 						try:
 							# print("yes inside",hit['href'])
 							
 							comp_url =( "https://archive.org"+hit['href'])
 							print("comp_url",comp_url)
 							response = requests.get(comp_url,timeout=15) 
-							path = "books/pdf"+str(i)+".pdf"
-							name_book = "pdf"+str(i)+".pdf"
-							pdf = open("books/pdf"+str(i)+".pdf", 'wb')
+							path = "books/"+filename+".epub"
+							name_book = filename+".epub"
+							
+							idd = ''.join(str(random.randint(0,10)) for x in range(6))
+							print("idd",idd)
+
+							pdf = open("books/"+name_book, 'wb')
 							# print("response.content",response.content)
 							pdf.write(response.content)
 
@@ -106,8 +104,10 @@ for link in links:
 							# client.upload_file(name)
 							client.upload_file(path,  # Path to local file
 							'booksdatabaseepub',  # Name of Space
-							name_book)  # Name for remote file
-							print("File ",name_book , " uploaded")
+							filename)  # Name for remote file
+							connectSQL(idd,title,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{filename}')
+
+							print("File ",filename , " uploaded")
 							
 
 							# title_list = article_list = author_list = list()
@@ -131,8 +131,7 @@ for link in links:
 							# 	Cursor.execute(postgres_insert_query, record_to_insert)
 						except:
 							pass
-	except:
-			pass
+
 
 	# print("All PDF files downloaded")
 
