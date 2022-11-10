@@ -23,8 +23,10 @@ def connectSQL(ID,title,url):
 										port="5432",
 										database="library")
 			cursor = connection.cursor()
-			postgres_insert_query = f"INSERT INTO the_indegenous_backend_book (id,title,description,year,url) VALUES  ({ID},{title},'desc',2022,{url})"
-			cursor.execute(postgres_insert_query)
+			postgres_insert_query = """INSERT INTO the_indegenous_backend_book (id,title,description,year,url) VALUES  (%s,%s,%s,%s,%s)"""
+			record_to_insert = (ID,title,'desc',2022,url)
+			cursor.execute(postgres_insert_query, record_to_insert)
+			# cursor.execute(postgres_insert_query)
 
 			connection.commit()
 			count = cursor.rowcount
@@ -34,6 +36,8 @@ def connectSQL(ID,title,url):
 			print("Failed to insert record into mobile table", error)
 		
 # connectSQL()
+# connectSQL(111,"title","https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{filename}")
+
 # URL from which pdfs to be downloaded
 url = "https://archive.org/details/cdl"
 
