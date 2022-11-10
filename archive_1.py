@@ -57,7 +57,7 @@ i = 0
 for link in links:
 	
 	# print(link)
-	try:
+	# try:
 		ans = link.find('a')['href']
 		print("ans",ans)
 		filename = ans.split('/')[-1]
@@ -73,8 +73,8 @@ for link in links:
 		links_2 = soup.find_all(class_ = "format-summary download-pill")
 		title = soup.find(class_ = "breaker-breaker").text
 		print("title",title)
-	except:
-		break
+	# except:
+	# 	break
 		for hit in links_2:
 				i=i+1
 				hit_detail = hit.text.strip()	
