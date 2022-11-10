@@ -48,7 +48,7 @@ def connectSQL():
 url = "https://archive.org/details/cdl"
 
 # Requests URL and get response object
-response = requests.get(url)
+response = requests.get(url,timeout=15) 
 
 # Parse text obtained
 soup = BeautifulSoup(response.text, 'html.parser')
@@ -85,7 +85,7 @@ for link in links:
 							
 							comp_url =( "https://archive.org"+hit['href'])
 							print("comp_url",comp_url)
-							response = requests.get(comp_url)
+							response = requests.get(comp_url,timeout=15) 
 							path = "books/pdf"+str(i)+".pdf"
 							name_book = "pdf"+str(i)+".pdf"
 							pdf = open("books/pdf"+str(i)+".pdf", 'wb')
