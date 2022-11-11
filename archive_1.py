@@ -9,7 +9,7 @@ import random
 
 
 from boto3 import session
-import boto3
+
 from botocore.client import Config
 
 ACCESS_ID = 'DO00DZN9YDVM4H4QKLPE'
@@ -103,7 +103,6 @@ for link in links:
 						# Initiate session
 							try:
 								session = session.Session()
-								boto3.setup_default_session(session=session)
 								client = session.client('s3',
 														region_name='nyc3',
 														endpoint_url='https://nyc3.digitaloceanspaces.com',
@@ -127,7 +126,7 @@ for link in links:
 							template = "An exception of type {0} occurred. Arguments:\n{1!r}"
 							message = template.format(type(ex).__name__, ex.args)
 							print (message)
-							
+
 	except Exception as ex:
 		
 		template = "An exception of type {0} occurred. Arguments:\n{1!r}"
