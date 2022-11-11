@@ -44,7 +44,7 @@ url = "https://archive.org/details/cdl?&sort=-week&page=4"
 session = session.Session()
 
 # Requests URL and get response object
-response = requests.get(url,timeout=600) 
+response = requests.get(url,timeout=60) 
 
 # Parse text obtained
 soup = BeautifulSoup(response.text, 'html.parser')
@@ -68,7 +68,7 @@ for link in links:
 		comp_url =( "https://archive.org/"+ans)
 
 		# data_type =link.get('data-category')
-		response_2 = requests.get(comp_url,timeout=600) 
+		response_2 = requests.get(comp_url,timeout=60) 
 			# Parse text obtained
 		soup = BeautifulSoup(response_2.text, 'html.parser')
 		# Find all hyperlinks present on webpage
@@ -87,7 +87,7 @@ for link in links:
 							
 							comp_url =( "https://archive.org"+hit['href'])
 							print("comp_url",comp_url)
-							response = requests.get(comp_url,timeout=600) 
+							response = requests.get(comp_url,timeout=60) 
 							path = "books/"+filename+".epub"
 							name_book = filename+".epub"
 							
@@ -113,8 +113,8 @@ for link in links:
 								# client.upload_file(name)
 								client.upload_file(path,  # Path to local file
 								'booksdatabaseepub',  # Name of Space
-								filename)  # Name for remote file
-								connectSQL(idd,title,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{filename}')
+								name_book)  # Name for remote file
+								connectSQL(idd,title,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{name_book}')
 
 								print("File ",filename , " uploaded")
 							except Exception as ex:
