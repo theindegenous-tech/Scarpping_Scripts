@@ -41,6 +41,7 @@ def connectSQL(ID,title,url):
 
 # URL from which pdfs to be downloaded
 url = "https://archive.org/details/cdl?&sort=-week&page=4"
+session = session.Session()
 
 # Requests URL and get response object
 response = requests.get(url,timeout=600) 
@@ -102,7 +103,7 @@ for link in links:
 
 						# Initiate session
 							try:
-								session = session.Session()
+								
 								client = session.client('s3',
 														region_name='nyc3',
 														endpoint_url='https://nyc3.digitaloceanspaces.com',
