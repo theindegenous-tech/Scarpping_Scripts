@@ -46,7 +46,7 @@ url = "https://archive.org/details/books/"
 session = session.Session()
 
 # Requests URL and get response object
-response = requests.get(url,timeout=60) 
+response = requests.get(url,timeout=15) 
 
 # Parse text obtained
 soup = BeautifulSoup(response.text, 'html.parser')
@@ -70,7 +70,7 @@ for link in links:
 		comp_url =( "https://archive.org/"+ans)
 
 		# data_type =link.get('data-category')
-		response_2 = requests.get(comp_url,timeout=60) 
+		response_2 = requests.get(comp_url,timeout=15) 
 			# Parse text obtained
 		soup = BeautifulSoup(response_2.text, 'html.parser')
 		# Find all hyperlinks present on webpage
@@ -89,7 +89,7 @@ for link in links:
 							
 							comp_url =( "https://archive.org"+hit['href'])
 							print("comp_url",comp_url)
-							response = requests.get(comp_url,timeout=60) 
+							response = requests.get(comp_url,timeout=15) 
 							path = "books/"+filename+".epub"
 							name_book = filename+".epub"
 							
