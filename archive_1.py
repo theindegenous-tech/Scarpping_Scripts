@@ -40,7 +40,9 @@ def connectSQL(ID,title,url):
 # connectSQL(111,"title","https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{filename}")
 
 # URL from which pdfs to be downloaded
-url = "https://archive.org/details/cdl?&sort=-week&page=4"
+url = "https://archive.org/details/books/"
+
+
 session = session.Session()
 
 # Requests URL and get response object
