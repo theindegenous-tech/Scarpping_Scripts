@@ -100,20 +100,26 @@ for link in links:
 							print("File ", i, " downloaded")
 
 						# Initiate session
-							session = session.Session()
-							client = session.client('s3',
-													region_name='nyc3',
-													endpoint_url='https://nyc3.digitaloceanspaces.com',
-													aws_access_key_id=ACCESS_ID,
-													aws_secret_access_key=SECRET_KEY)
-													
-							# client.upload_file(name)
-							client.upload_file(path,  # Path to local file
-							'booksdatabaseepub',  # Name of Space
-							filename)  # Name for remote file
-							connectSQL(idd,title,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{filename}')
+							try:
+								session = session.Session()
+								client = session.client('s3',
+														region_name='nyc3',
+														endpoint_url='https://nyc3.digitaloceanspaces.com',
+														aws_access_key_id=ACCESS_ID,
+														aws_secret_access_key=SECRET_KEY)
+														
+								# client.upload_file(name)
+								client.upload_file(path,  # Path to local file
+								'booksdatabaseepub',  # Name of Space
+								filename)  # Name for remote file
+								connectSQL(idd,title,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{filename}')
 
-							print("File ",filename , " uploaded")
+								print("File ",filename , " uploaded")
+							except Exception as ex:
+								template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+								message = template.format(type(ex).__name__, ex.args)
+								print (message)
+
 							
 						except:
 							pass
