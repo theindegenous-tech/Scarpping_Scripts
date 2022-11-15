@@ -16,7 +16,7 @@ ACCESS_ID = 'DO00DZN9YDVM4H4QKLPE'
 SECRET_KEY = 'TJZGQgbfYS7aES8D9H/h5+/hDutOyn8BGwfhRmSdc1c'
 
 
-def connectSQL(ID,title,url):
+def connectSQL(ID,title,comp,url):
 		try:
 			connection = psycopg2.connect(user="admin",
 										password="admin",
@@ -25,7 +25,7 @@ def connectSQL(ID,title,url):
 										database="library")
 			cursor = connection.cursor()
 			postgres_insert_query = """INSERT INTO the_indegenous_backend_book (id,title,description,year,url) VALUES  (%s,%s,%s,%s,%s)"""
-			record_to_insert = (ID,title,'desc',2022,url)
+			record_to_insert = (ID,title,comp,2022,url)
 			cursor.execute(postgres_insert_query, record_to_insert)
 			# cursor.execute(postgres_insert_query)
 
@@ -118,7 +118,7 @@ for i in range(100):
 									client.upload_file(path,  # Path to local file
 									'booksdatabaseepub',  # Name of Space
 									name_book)  # Name for remote file
-									connectSQL(idd,title,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{name_book}')
+									connectSQL(idd,title,comp_url,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{name_book}')
 
 									print("File ",filename , " uploaded")
 								except Exception as ex:
