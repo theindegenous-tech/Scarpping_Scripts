@@ -36,11 +36,7 @@ def connectSQL(title,comp,url):
 
 		except (Exception, psycopg2.Error) as error:
 			print("Failed to insert record into mobile table", error)
-		
-# connectSQL()
-# connectSQL(111,"title","https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{filename}")
 
-# URL from which pdfs to be downloaded
 
 for i in range(100):
 	url = f"https://archive.org/details/books?and%5B%5D=lending___status%3A%22is_readable%22&and%5B%5D=collection%3A%22americana%22&sort=-week&page={i}"
@@ -96,31 +92,31 @@ for i in range(100):
 								# idd = ''.join(str(random.randint(0,10)) for x in range(6))
 								# print("idd",idd)
 								path_book = f'D:/books_pdf/{name_book}'
-								if(not os.path.exists(path_book)):
+								if(1):
 									pdf = open("D:/books_pdf/"+name_book, 'wb')
 									# print("response.content",response.content)
 									pdf.write(response.content)
 
 									pdf.close()
 									# print("File ", i, " downloaded")
-									connectSQL(title,comp_url,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/books_pdf/{name_book}')
+									# connectSQL(title,comp_url,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/books_pdf/{name_book}')
 
 
 								# Initiate session
 									try:
-										# session = session.Session()
-										# client = session.client('s3',
-										# 						region_name='nyc3',
-										# 						endpoint_url='https://nyc3.digitaloceanspaces.com',
-										# 						aws_access_key_id=ACCESS_ID,
-										# 						aws_secret_access_key=SECRET_KEY)
+										session = session.Session()
+										client = session.client('s3',
+																region_name='nyc3',
+																endpoint_url='https://nyc3.digitaloceanspaces.com',
+																aws_access_key_id=ACCESS_ID,
+																aws_secret_access_key=SECRET_KEY)
 
-										# client.upload_file(path,  # Path to local file
-										# 'booksdatabaseepub',  # Name of Space
-										# name_book)  # Name for remote file
+										client.upload_file(path,  # Path to local file
+										'booksdatabaseepub',  # Name of Space
+										name_book)  # Name for remote file
 
-											# connectSQL(title,comp_url,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{name_book}')
-											print("File ",filename , " uploaded")
+										connectSQL(title,comp_url,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{name_book}')
+										print("File ",filename , " uploaded")
 									except Exception as ex:
 										template = "An exception of type {0} occurred. Arguments:\n{1!r}"
 										message = template.format(type(ex).__name__, ex.args)
