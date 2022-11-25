@@ -88,38 +88,40 @@ for i in range(100):
 								comp_url =( "https://archive.org"+hit['href'])
 								print("comp_url",comp_url)
 								response = requests.get(comp_url,timeout=25) 
-								path = "books/"+filename+".pdf"
+								path = "mnt/volume_nyc3_01/books/"+filename+".pdf"
 								name_book = filename+".pdf"
 								# idd = ''.join(str(random.randint(0,10)) for x in range(6))
 								# print("idd",idd)
 								# path_book = f'D:/books_pdf/{name_book}'
 								if(1):
-									pdf = open("books/"+name_book, 'wb')
+									pdf = open("mnt/volume_nyc3_01/books/"+name_book, 'wb')
 									# print("response.content",response.content)
 									pdf.write(response.content)
 
 									pdf.close()
 
+									connectSQL(title,comp_url,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{name_book}')
+									print("File ",filename , " uploaded")
+
 								# Initiate session
-									try:
-										session = session.Session()
-										client = session.client('s3',
-																region_name='nyc3',
-																endpoint_url='https://nyc3.digitaloceanspaces.com',
-																aws_access_key_id=ACCESS_ID,
-																aws_secret_access_key=SECRET_KEY)
+									# try:
+									# 	session = session.Session()
+									# 	client = session.client('s3',
+									# 							region_name='nyc3',
+									# 							endpoint_url='https://nyc3.digitaloceanspaces.com',
+									# 							aws_access_key_id=ACCESS_ID,
+									# 							aws_secret_access_key=SECRET_KEY)
 
-										client.upload_file(path,  # Path to local file
-										'booksdatabaseepub',  # Name of Space
-										name_book)  # Name for remote file
+									# 	client.upload_file(path,  # Path to local file
+									# 	'booksdatabaseepub',  # Name of Space
+									# 	name_book)  # Name for remote file
 
-										connectSQL(title,comp_url,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{name_book}')
-										print("File ",filename , " uploaded")
-									except Exception as ex:
-										template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-										exc_type, exc_obj, exc_tb = sys.exc_info()
-										message = template.format(type(ex).__name__, ex.args)
-										print (message,exc_tb.tb_lineno)
+										
+									# except Exception as ex:
+									# 	template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+									# 	exc_type, exc_obj, exc_tb = sys.exc_info()
+									# 	message = template.format(type(ex).__name__, ex.args)
+									# 	print (message,exc_tb.tb_lineno)
 								else:
 									print("book exist")
 
