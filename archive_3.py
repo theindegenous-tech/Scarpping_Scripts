@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import uuid
 import random
 import os.path
+import sys, os
 
 
 
@@ -86,21 +87,18 @@ for i in range(100):
 								
 								comp_url =( "https://archive.org"+hit['href'])
 								print("comp_url",comp_url)
-								response = requests.get(comp_url,timeout=15) 
-								path = "D:/books_pdf/"+filename+".pdf"
+								response = requests.get(comp_url,timeout=25) 
+								path = "books/"+filename+".pdf"
 								name_book = filename+".pdf"
 								# idd = ''.join(str(random.randint(0,10)) for x in range(6))
 								# print("idd",idd)
-								path_book = f'D:/books_pdf/{name_book}'
+								# path_book = f'D:/books_pdf/{name_book}'
 								if(1):
-									pdf = open("D:/books_pdf/"+name_book, 'wb')
+									pdf = open("books/"+name_book, 'wb')
 									# print("response.content",response.content)
 									pdf.write(response.content)
 
 									pdf.close()
-									# print("File ", i, " downloaded")
-									# connectSQL(title,comp_url,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/books_pdf/{name_book}')
-
 
 								# Initiate session
 									try:
@@ -119,19 +117,22 @@ for i in range(100):
 										print("File ",filename , " uploaded")
 									except Exception as ex:
 										template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+										exc_type, exc_obj, exc_tb = sys.exc_info()
 										message = template.format(type(ex).__name__, ex.args)
-										print (message)
+										print (message,exc_tb.tb_lineno)
 								else:
 									print("book exist")
 
 								
 							except Exception as ex:
 								template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+								exc_type, exc_obj, exc_tb = sys.exc_info()
 								message = template.format(type(ex).__name__, ex.args)
-								print (message)
+								print (message,exc_tb.tb_lineno)
 
 		except Exception as ex:
 			
 			template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+			exc_type, exc_obj, exc_tb = sys.exc_info()
 			message = template.format(type(ex).__name__, ex.args)
-			print (message)
+			print (message,exc_tb.tb_lineno)
