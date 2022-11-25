@@ -100,7 +100,7 @@ for i in range(100):
 
 									pdf.close()
 
-									connectSQL(title,comp_url,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/{name_book}')
+									connectSQL(title,comp_url,f'https://booksdatabaseepub.nyc3.digitaloceanspaces.com/books_pdf/{name_book}')
 									print("File ",filename , " uploaded")
 
 								# Initiate session
